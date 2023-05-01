@@ -14,7 +14,7 @@ const RUSSIAN_LAYOUT = [
   "{tab} й ц у к е н г ш щ з х ъ \\",
   "{lock} ф ы в а п р о л д ж э {enter}",
   "{shift} я ч с м и т ь б ю . {shift}",
-  ".com {space}"
+  "alt {space}",
 ];
 
 const ENGLISH_LAYOUT = [
@@ -22,20 +22,21 @@ const ENGLISH_LAYOUT = [
   "{tab} q w e r t y u i o p [ ] \\",
   "{lock} a s d f g h j k l ; ' {enter}",
   "{shift} z x c v b n m , . / {shift}",
-  ".com {space}"
+  "alt {space}",
 ];
 
 // Определяем текущую раскладку и создаем клавиши
 let currentLayout = RUSSIAN_LAYOUT;
 
 function createKeys(layout) {
-  layout.forEach(keyRow => {
+  layout.forEach((keyRow) => {
     const keyRowElement = document.createElement("div");
     keyRowElement.classList.add("keyrow");
 
-    keyRow.split(" ").forEach(key => {
+    keyRow.split(" ").forEach((key) => {
       const keyElement = document.createElement("button");
       keyElement.classList.add("key");
+      keyElement.id = key;
 
       switch (key) {
         case "{bksp}":
@@ -70,8 +71,8 @@ function createKeys(layout) {
           keyElement.textContent = "Shift";
           break;
 
-        case ".com":
-          keyElement.textContent = ".com";
+        case "alt":
+          keyElement.textContent = "alt";
           break;
 
         default:
@@ -95,33 +96,44 @@ createKeys(currentLayout);
 const textareaElement = document.createElement("textarea");
 document.body.appendChild(textareaElement);
 
-// Переключение на английскую раскладку при нажатии
-document.addEventListener("keydown", event => {
-    const key = event.key;
+//
+textareaElement.addEventListener("keypress", (event) => {
+  const element = document.getElementById(event.key);
+  console.log("EVENT: ", event);
+  if (currentLayout.find((el) => el.includes(event.key))) {
+    element.style.backgroundColor = "yellow";
+    setTimeout(() => (element.style.backgroundColor = ""), 300);
+  }
+});
+//
 
-    if (key === "Shift") {
-      currentLayout = ENGLISH_LAYOUT;
+// Переключение на английскую раскладку при нажатии
+document.addEventListener("keydown", (event) => {
+  const key = event.key;
+
+  if (key === "Shift") {
+    currentLayout = ENGLISH_LAYOUT;
+    keysContainer.innerHTML = "";
+    createKeys(currentLayout);
+  }
+
+  if (key === "Alt") {
+    altPressed = true;
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  const key = event.key;
+
+  if (key === "Shift") {
+    if (!altPressed) {
+      currentLayout = RUSSIAN_LAYOUT;
       keysContainer.innerHTML = "";
       createKeys(currentLayout);
     }
+  }
 
-    if (key === "Alt") {
-      altPressed = true;
-    }
-  });
-
-  document.addEventListener("keyup", event => {
-    const key = event.key;
-
-    if (key === "Shift") {
-      if (!altPressed) {
-        currentLayout = RUSSIAN_LAYOUT;
-        keysContainer.innerHTML = "";
-        createKeys(currentLayout);
-      }
-    }
-
-    if (key === "Alt") {
-      altPressed = false;
-    }
-  });
+  if (key === "Alt") {
+    altPressed = false;
+  }
+});
