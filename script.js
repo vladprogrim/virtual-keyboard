@@ -1,4 +1,4 @@
-// Создаем элементы клавиатуры
+
 const keyboardElement = document.createElement("div");
 keyboardElement.classList.add("keyboard");
 
@@ -8,7 +8,7 @@ keysContainer.classList.add("keys");
 keyboardElement.appendChild(keysContainer);
 document.body.appendChild(keyboardElement);
 
-// Определяем раскладку для русской и английской клавиатур
+
 const RUSSIAN_LAYOUT = [
   "ё 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
   "{tab} й ц у к е н г ш щ з х ъ \\",
@@ -25,7 +25,7 @@ const ENGLISH_LAYOUT = [
   "alt {space}",
 ];
 
-// Определяем текущую раскладку и создаем клавиши
+
 let currentLayout = RUSSIAN_LAYOUT;
 
 function createKeys(layout) {
@@ -92,11 +92,11 @@ function createKeys(layout) {
 
 createKeys(currentLayout);
 
-// Добавляем текстовое поле
+
 const textareaElement = document.createElement("textarea");
 document.body.appendChild(textareaElement);
 
-//
+
 textareaElement.addEventListener("keypress", (event) => {
   const element = document.getElementById(event.key);
   console.log("EVENT: ", event);
@@ -105,9 +105,8 @@ textareaElement.addEventListener("keypress", (event) => {
     setTimeout(() => (element.style.backgroundColor = ""), 300);
   }
 });
-//
 
-// Переключение на английскую раскладку при нажатии
+
 document.addEventListener("keydown", (event) => {
   const key = event.key;
 
