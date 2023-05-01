@@ -104,6 +104,16 @@ textareaElement.addEventListener("keypress", (event) => {
     element.style.backgroundColor = "yellow";
     setTimeout(() => (element.style.backgroundColor = ""), 300);
   }
+  if (event.key === 'Enter') {
+    const enterElement = document.getElementById('{enter}')
+    enterElement.style.backgroundColor = "yellow";
+    setTimeout(() => (enterElement.style.backgroundColor = ""), 300);
+  }
+  if (event.code === 'Space') {
+    const spaceElement = document.getElementById('{space}')
+    spaceElement.style.backgroundColor = "yellow";
+    setTimeout(() => (spaceElement.style.backgroundColor = ""), 300);
+  }
 });
 //
 
